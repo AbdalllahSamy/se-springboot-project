@@ -22,4 +22,5 @@ public class UserController {
         String token = authorizationHeader.substring("Bearer ".length());
         return this.userService.getMyData(token);
     }
+
 }
