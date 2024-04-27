@@ -75,6 +75,8 @@ public class AuthenticationService {
         userData.put("email", user.getUsername());
         userData.put("role", user.getRole());
         userData.put("token", token);
+        userData.put("firstName", user.getFirstName());
+        userData.put("lastName", user.getLastName());
         return userData;
     }
 
