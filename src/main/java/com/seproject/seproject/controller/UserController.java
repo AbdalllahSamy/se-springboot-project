@@ -2,12 +2,10 @@ package com.seproject.seproject.controller;
 
 import com.seproject.seproject.model.User;
 import com.seproject.seproject.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+//@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class UserController {
 
