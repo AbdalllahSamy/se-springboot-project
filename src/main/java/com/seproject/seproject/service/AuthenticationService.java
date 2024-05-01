@@ -31,7 +31,7 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ApiResponse register(User request){
+    public void register(User request){
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -41,14 +41,6 @@ public class AuthenticationService {
         user.setRole(request.getRole());
 
         user = userRepository.save(user);
-
-        String jwt = jwtService.generateToken(user);
-
-        saveUserToken(jwt, user);
-
-        Map<String, Object> userData = createUserData(user, jwt);
-
-        return ApiResponse.createResponse("Registration Successfully", userData);
     }
 
     public ApiResponse authentication(User request){
@@ -77,6 +69,7 @@ public class AuthenticationService {
         userData.put("token", token);
         userData.put("firstName", user.getFirstName());
         userData.put("lastName", user.getLastName());
+        userData.put("id", user.getId());
         return userData;
     }
 

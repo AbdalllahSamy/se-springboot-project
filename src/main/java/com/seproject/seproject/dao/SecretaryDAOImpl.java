@@ -1,10 +1,14 @@
 package com.seproject.seproject.dao;
 
 
+import com.seproject.seproject.model.Role;
 import com.seproject.seproject.model.Secretary;
+import com.seproject.seproject.model.User;
+import com.seproject.seproject.service.AuthenticationService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +18,8 @@ public class SecretaryDAOImpl implements SecretaryDAO{
 
     //    define field for entity manger
     private EntityManager entityManager ;
+    private PasswordEncoder passwordEncoder;
+    private AuthenticationService authenticationService;
 
 //   constractor for inject entitymanager
 
@@ -21,10 +27,14 @@ public class SecretaryDAOImpl implements SecretaryDAO{
     public SecretaryDAOImpl() {
     }
 
+
     @Autowired
-    public SecretaryDAOImpl(EntityManager theEntityManager) {
-        this.entityManager = theEntityManager;
+    public SecretaryDAOImpl(EntityManager entityManager, PasswordEncoder passwordEncoder, AuthenticationService authenticationService) {
+        this.entityManager = entityManager;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationService = authenticationService;
     }
+
 
 
     @Override
@@ -47,6 +57,13 @@ public class SecretaryDAOImpl implements SecretaryDAO{
     @Override
     public Secretary save(Secretary secretary) {
         Secretary dbeSecretary = entityManager.merge(secretary);
+        User user = new User();
+        user.setFirstName(dbeSecretary.getFirstName());
+        user.setLastName(dbeSecretary.getLastName());
+        user.setRole(Role.SEC);
+        user.setUsername(dbeSecretary.getEmail());
+        user.setPassword(passwordEncoder.encode(dbeSecretary.getPassword()));
+        authenticationService.register(user);
         return dbeSecretary;
 
     }

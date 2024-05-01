@@ -1,6 +1,7 @@
 package com.seproject.seproject.dao;
 
 import com.seproject.seproject.model.*;
+import com.seproject.seproject.service.EncryptDecryptService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,15 @@ import java.util.List;
 public class ChatMessageDAO {
     //fields
     EntityManager entityManager;
+    EncryptDecryptService encryptDecryptService;
+
+
 
     //constructors
     @Autowired
-    public ChatMessageDAO(EntityManager entityManager) {
+    public ChatMessageDAO(EntityManager entityManager, EncryptDecryptService encryptDecryptService) {
         this.entityManager = entityManager;
+        this.encryptDecryptService = encryptDecryptService;
     }
         
     //functions
@@ -32,6 +37,9 @@ public class ChatMessageDAO {
         theQuery.setParameter("receiver2", person1);
 
         List<ChatMessage> chat = theQuery.getResultList();
+        for (ChatMessage message : chat) {
+            message.setContent(encryptDecryptService.decryptMessage(message.getContent()));
+        }
         return getSortedMessages(chat);
     }
 
@@ -45,6 +53,8 @@ public class ChatMessageDAO {
     public ChatMessage addMessage(ChatMessage message){
         message.setId(0);
         message.setTimestamp(convertToCairoLocalDateTime(System.currentTimeMillis()));
+        encryptDecryptService.createKeys();
+        message.setContent(encryptDecryptService.encryptMessage(message.getContent()));
         ChatMessage theChatMessage = entityManager.merge(message);
         return theChatMessage;
     }
