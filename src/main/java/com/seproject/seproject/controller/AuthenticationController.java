@@ -28,7 +28,7 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse> login(
             @RequestBody User request
     ) {
-        return ResponseEntity.ok(authenticationService.authentication(request));
+        return ResponseEntity.ok(authenticationService.     authentication(request));
     }
 
 }

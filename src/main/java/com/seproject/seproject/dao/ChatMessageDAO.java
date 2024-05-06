@@ -38,6 +38,8 @@ public class ChatMessageDAO {
 
         List<ChatMessage> chat = theQuery.getResultList();
         for (ChatMessage message : chat) {
+            encryptDecryptService.createKeys();
+            message.setContent(encryptDecryptService.encryptMessage(message.getContent()));
             message.setContent(encryptDecryptService.decryptMessage(message.getContent()));
         }
         return getSortedMessages(chat);
@@ -51,10 +53,11 @@ public class ChatMessageDAO {
     }
 
     public ChatMessage addMessage(ChatMessage message){
+        encryptDecryptService.createKeys();
+        String hashed = encryptDecryptService.encryptMessage(message.getContent());
         message.setId(0);
         message.setTimestamp(convertToCairoLocalDateTime(System.currentTimeMillis()));
-        encryptDecryptService.createKeys();
-        message.setContent(encryptDecryptService.encryptMessage(message.getContent()));
+        message.setContent(encryptDecryptService.decryptMessage(hashed));
         ChatMessage theChatMessage = entityManager.merge(message);
         return theChatMessage;
     }
