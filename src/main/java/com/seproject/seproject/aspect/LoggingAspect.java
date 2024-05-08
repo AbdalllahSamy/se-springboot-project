@@ -25,18 +25,18 @@ public class LoggingAspect {
     
 	Logger log=LoggerFactory.getLogger(LoggingAspect.class);
 
-// 	@Around(value = "execution(* com.seproject.seproject.service..*(..))")
-//     public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
-//     long startTime = System.currentTimeMillis();
-//     StringBuilder sb = new StringBuilder("KBI:");
-//     sb.append("[").append(joinPoint.getKind()).append("]\tfor: ").append(joinPoint.getSignature())
-//             .append("\twithArgs: ").append("(").append(String.join(", ", Arrays.toString(joinPoint.getArgs()))).append(")");
-//             sb.append("\ttook");
-//     Object retuenValue = joinPoint.proceed();
-//     log.info(sb.append(System.currentTimeMillis() - startTime).append(" ms. ").toString());
-//     return retuenValue;
+ 	@Around(value = "execution(* com.seproject.seproject.service..*(..))")
+     public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
+     long startTime = System.currentTimeMillis();
+     StringBuilder sb = new StringBuilder("KBI:");
+     sb.append("[").append(joinPoint.getKind()).append("]\tfor: ").append(joinPoint.getSignature())
+             .append("\twithArgs: ").append("(").append(String.join(", ", Arrays.toString(joinPoint.getArgs()))).append(")");
+             sb.append("\ttook");
+     Object retuenValue = joinPoint.proceed();
+     log.info(sb.append(System.currentTimeMillis() - startTime).append(" ms. ").toString());
+     return retuenValue;
 
-// }
+ }
         @Pointcut(value =  "execution(* com.seproject.seproject.dao..*(..))")
         public void forRepositoryLog(){}
         @Pointcut(value =  "execution(* com.seproject.seproject.service..*(..))")

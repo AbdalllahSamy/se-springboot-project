@@ -14,7 +14,7 @@ public class Event {
     private Integer id;
 
     @Column(name = "date")
-    private Date date;
+    private String date;
 
     @Column(name = "content")
     private String content;
@@ -32,7 +32,7 @@ public class Event {
 
     }
 
-    public Event(Date date, String content, String type, int publisher_id) {
+    public Event(String date, String content, String type, int publisher_id) {
         this.date = date;
         this.content = content;
         this.type = type;
@@ -65,11 +65,15 @@ public class Event {
         this.content = content;
     }
 
-    public Date getDate() {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

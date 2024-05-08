@@ -31,7 +31,7 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public void register(User request){
+    public ApiResponse register(User request) {
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -48,10 +48,10 @@ public class AuthenticationService {
 
         Map<String, Object> userData = createUserData(user, jwt);
 
-        return ApiResponse.createResponse("Registration Successfully", userData,true);
+        return ApiResponse.createResponse("Registration Successfully", userData, true);
     }
 
-    public ApiResponse authentication(User request){
+    public ApiResponse authentication(User request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -84,8 +84,8 @@ public class AuthenticationService {
     private void revokeAllTokenByUser(User user) {
         List<Token> validTokenListByUser = tokenRepository.findAllTokenByUser(user.getId());
 
-        if (!validTokenListByUser.isEmpty()){
-            validTokenListByUser.forEach(t->{
+        if (!validTokenListByUser.isEmpty()) {
+            validTokenListByUser.forEach(t -> {
                 t.setLoggedOut(true);
             });
         }

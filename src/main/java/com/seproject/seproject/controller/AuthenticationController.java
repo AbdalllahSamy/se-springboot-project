@@ -40,15 +40,9 @@ public class AuthenticationController {
 
         // Attempt registration
         ApiResponse response = authenticationService.register(request);
-
-        // Handle registration result
-        // if (response) {
             return response;
 
-        // } else {
-            // If registration fails, set success to false
-            // response.setSuccess(false);
-            // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+
         }
     
 

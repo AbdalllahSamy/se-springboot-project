@@ -4,6 +4,7 @@ import com.seproject.seproject.dao.EventDAO;
 import com.seproject.seproject.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,12 +25,12 @@ public class EventServiceImpl implements EventService{
     public Event findById(int theId) {
         return eventDAO.findById(theId);
     }
-
+    @Transactional
     @Override
     public Event save(Event event) {
         return eventDAO.save(event);
     }
-
+@Transactional
     @Override
     public void deleteEvent(int theId) {
     eventDAO.deleteEvent(theId);
