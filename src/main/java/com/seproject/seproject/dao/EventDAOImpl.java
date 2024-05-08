@@ -14,16 +14,21 @@ public class EventDAOImpl implements EventDAO{
 
     private EntityManager entityManager ;
 
+    public EventDAOImpl(){
+
+    }
+
     @Autowired
     public EventDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
     @Override
     public List<Event> findAll() {
-        TypedQuery<Event> thequery = entityManager.createQuery("from Event", Event.class);
-        List<Event> events = thequery.getResultList();
-        return events ;
+        TypedQuery<Event> theQuery = entityManager.createQuery("from Event", Event.class);
+        List<Event> events = theQuery.getResultList();
+        return events;
     }
+
 
     @Override
     public Event findById(int theId) {

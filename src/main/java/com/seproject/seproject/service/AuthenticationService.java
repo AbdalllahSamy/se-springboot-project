@@ -48,7 +48,7 @@ public class AuthenticationService {
 
         Map<String, Object> userData = createUserData(user, jwt);
 
-        return ApiResponse.createResponse("Registration Successfully", userData);
+        return ApiResponse.createResponse("Registration Successfully", userData,true);
     }
 
     public ApiResponse authentication(User request){
@@ -67,7 +67,7 @@ public class AuthenticationService {
 
         Map<String, Object> userData = createUserData(user, token);
 
-        return ApiResponse.createResponse("User Logged In", userData);
+        return ApiResponse.createResponse("User Logged In", userData, true);
     }
 
     private static Map<String, Object> createUserData(User user, String token) {

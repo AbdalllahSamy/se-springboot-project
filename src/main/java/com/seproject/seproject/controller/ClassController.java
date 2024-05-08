@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-    @RequestMapping("/api/admin")
+@RequestMapping("/api")
 public class ClassController {
 
     private ClassService classService ;
@@ -20,13 +20,13 @@ public class ClassController {
     }
 
     //    return all class
-    @GetMapping("/class")
+    @GetMapping("/show/class")
     public List<KinderClass> findAll(){
         return  classService.findAll() ;
     }
 
     //Search about class with id
-    @GetMapping("/class/{id}")
+    @GetMapping("/admin/class/{id}")
     public KinderClass findall(@PathVariable("id")int  theId){
         KinderClass dbClass = classService.findById( theId);
         if(dbClass == null){
@@ -36,7 +36,7 @@ public class ClassController {
     }
 
     // Add class
-    @PostMapping("/class")
+    @PostMapping("/admin/class")
     public  KinderClass addParent(@RequestBody KinderClass aClass){
         aClass.setId(0);
         KinderClass dbClass = classService.save(aClass) ;
@@ -45,7 +45,7 @@ public class ClassController {
     }
 
     // Update class
-    @PutMapping("/class")
+    @PutMapping("/admin/class")
     public  KinderClass updateParent(@RequestBody KinderClass aclass){
         KinderClass dbClass = classService.save(aclass) ;
 
@@ -55,7 +55,7 @@ public class ClassController {
 
     //    delete class
 
-    @DeleteMapping("/class/{id}")
+    @DeleteMapping("/admin/class/{id}")
     public String delete(@PathVariable("id") int theId) {
         KinderClass aClass = classService.findById(theId);
         if (aClass == null) {

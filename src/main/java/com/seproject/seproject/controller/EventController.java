@@ -18,14 +18,14 @@ public class EventController  {
     }
 
     //    return all homework
-    @GetMapping("/event")
+    @GetMapping("/show/event")
     public List<Event> findAll(){
         return  eventService.findAll() ;
     }
 
 
     //Search about class with id
-    @GetMapping("/event/{id}")
+    @GetMapping("/admin/event/{id}")
     public Event findall(@PathVariable("id")int  theId){
         Event dbEvent = eventService.findById( theId);
         if(dbEvent == null){
@@ -37,7 +37,7 @@ public class EventController  {
 
 
     // Add homework
-    @PostMapping("/event")
+    @PostMapping("/admin/event")
     public  Event addParent(@RequestBody Event event){
         event.setId(0);
         Event event1 = eventService.save(event) ;
@@ -47,7 +47,7 @@ public class EventController  {
 
 
     // Update homework
-    @PutMapping("/event")
+    @PutMapping("/admin/event")
     public  Event updateParent(@RequestBody Event event){
         Event dbEvent = eventService.save(event) ;
 
@@ -58,7 +58,7 @@ public class EventController  {
 
     //    delete homework
 
-    @DeleteMapping("/event/{id}")
+    @DeleteMapping("/admin/event/{id}")
     public String delete(@PathVariable("id") int theId) {
         Event event = eventService.findById(theId);
         if (event == null) {
