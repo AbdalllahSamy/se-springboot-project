@@ -31,7 +31,7 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public ApiResponse register(User request){
+    public void register(User request){
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -77,6 +77,7 @@ public class AuthenticationService {
         userData.put("token", token);
         userData.put("firstName", user.getFirstName());
         userData.put("lastName", user.getLastName());
+        userData.put("id", user.getId());
         return userData;
     }
 

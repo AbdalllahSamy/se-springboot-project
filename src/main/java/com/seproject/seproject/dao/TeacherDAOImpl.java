@@ -1,9 +1,13 @@
 package com.seproject.seproject.dao;
 
+import com.seproject.seproject.model.Role;
 import com.seproject.seproject.model.Teacher;
+import com.seproject.seproject.model.User;
+import com.seproject.seproject.service.AuthenticationService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,16 +17,25 @@ public class TeacherDAOImpl implements TeacherDAO{
 
     //    define field for entity manger
     private EntityManager entityManager ;
+    private AuthenticationService authenticationService;
+    private final PasswordEncoder passwordEncoder;
 
 //   constractor for inject entitymanager
 
 
-    public TeacherDAOImpl() {
+
+    public TeacherDAOImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
+
+
+
     @Autowired
-    public TeacherDAOImpl(EntityManager theEntityManager) {
-        this.entityManager = theEntityManager;
+    public TeacherDAOImpl(PasswordEncoder passwordEncoder, AuthenticationService authenticationService, EntityManager entityManager) {
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationService = authenticationService;
+        this.entityManager = entityManager;
     }
 
 
@@ -46,6 +59,13 @@ public class TeacherDAOImpl implements TeacherDAO{
     @Override
     public Teacher save(Teacher teacher) {
         Teacher dbeteacher = entityManager.merge(teacher);
+        User user = new User();
+        user.setFirstName(teacher.getFirstName());
+        user.setLastName(teacher.getLastName());
+        user.setRole(Role.TEACHER);
+        user.setUsername(teacher.getEmail());
+        user.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        authenticationService.register(user);
         return dbeteacher;
 
     }
